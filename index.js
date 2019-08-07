@@ -44,6 +44,14 @@ Usage:
 
 if (require.main === module) {
   const { host, job, build, username, password } = yargs.argv
+  process.env.DEBUG && console.log(JSON.stringify({
+    host,
+    job,
+    build,
+    username,
+    password
+  }))
+  process.env.DEBUG && console.log(JSON.stringify(yargs.argv))
 
   jenkinsStreamBuild({ host, job, build, username, password }).then(() => process.exit(0))
     .catch((err) => {
