@@ -11,16 +11,16 @@ jenkins-stream-build
 Missing parameters to run
 
 Usage:
---host
+--host (required)
     the jenkins host (e.g. jenkins.example.com)
---job
+--job (required)
     the job to stream (the job name in the jenkins UI, e.g. deploy, ci, etc.)
---build
-    the build number (defaults to 'lastBuild') (number of the build to stream)
---username
+--username (required)
     same username as for accessing the Jenkins Web UI
---password
+--password (required)
     same password as for accessing the Jenkins Web UI
+--build (optional)
+    the build number (defaults to 'lastBuild') (number of the build to stream)
 `)
     return
   }
