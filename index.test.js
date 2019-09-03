@@ -51,3 +51,28 @@ test('calls correct url based on parameters', async t => {
 
   t.notThrows(() => request.done(), 'expected url was not called')
 })
+
+test('paginates build log', async t => {
+  const host = 'jenkins.example.com'
+  const job = 'test-job'
+  const build = '666'
+  const username = 'test'
+  const password = 'pass'
+
+  const request1 = nock(`https://${username}:${password}@${host}`)
+    .get(`/job/${job}/${build}/logText/progressiveText?start=0`)
+    .reply(200, 'hellohello', {
+      'x-more-data': 'true',
+      'x-text-size': 10
+    })
+  const request2 = nock(`https://${username}:${password}@${host}`)
+    .get(`/job/${job}/${build}/logText/progressiveText?start=10`)
+    .reply(200, '', {
+      'x-more-data': 'false'
+    })
+
+  await jenkinsStreamBuild({ host, job, build, username, password })
+
+  t.notThrows(() => request1.done(), 'expected url was not called')
+  t.notThrows(() => request2.done(), 'expected url was not called')
+})
