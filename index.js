@@ -49,7 +49,11 @@ function buildUrl ({ host, job, build = 'lastBuild', username, password, start }
     if (!password) errorMessage += '\npassword not defined'
     throw new Error(errorMessage)
   }
-  return `https://${username}:${password}@${host}/job/${job}/${build}/logText/progressiveText?start=${start}`
+  return `https://${encode(username)}:${encode(password)}@${host}/job/${job}/${build}/logText/progressiveText?start=${start}`
+}
+
+function encode (string) {
+  return encodeURIComponent(string)
 }
 
 function help () {

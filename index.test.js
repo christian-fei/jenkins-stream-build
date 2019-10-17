@@ -14,6 +14,18 @@ test('returns url with username, password and start parameter', async t => {
   t.is(url, 'https://test:pass@jenkins.example.com/job/test-job/666/logText/progressiveText?start=0')
 })
 
+test('encodes username and password correctly', async t => {
+  const host = 'jenkins.example.com'
+  const job = 'test-job'
+  const build = '666'
+  const username = 'test'
+  const password = 'passwith!?ì2-!#43$£"'
+  const start = 0
+
+  const url = buildUrl({ host, job, build, username, password, start })
+  t.is(url, 'https://test:passwith!%3F%C3%AC2-!%2343%24%C2%A3%22@jenkins.example.com/job/test-job/666/logText/progressiveText?start=0')
+})
+
 test('returns url with username, password and start parameter (paginated to 100)', async t => {
   const host = 'jenkins.example.com'
   const job = 'test-job'
